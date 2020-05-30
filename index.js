@@ -28,6 +28,6 @@ CategoriesRouter.routesConfig(app);
 ProductsRouter.routesConfig(app);
 
 
-app.listen(process.env.PORT || config.port, function () {
+app.listen(config.port, function () {
     console.log('app listening at port %s', config.port);
 });
