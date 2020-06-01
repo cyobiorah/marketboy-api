@@ -38,11 +38,13 @@ exports.findById = (id) => {
                     error: 'No Product Found!',
                 }
             } else {
-                result = result.toJson();
+                result = result.toJSON();
                 delete result._id;
                 delete result.__v;
                 return result;
             }
+        }).catch((err) => {
+            console.log(err);
         });
 };
 
@@ -50,15 +52,6 @@ exports.createProduct = (productData) => {
     // console.log(productData);
     const product = new Product(productData);
     return product.save();
-
-    // const postData = productData;
-    // const product = new Product({
-    //     ...postData,
-    //     category: productData.categoryId
-    // });
-    // const savedProduct = product.save();
-    // savedProduct.populate('category').execPopulate();
-    // return savedProduct();
 };
 
 exports.list = () => {
