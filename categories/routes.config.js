@@ -12,7 +12,7 @@ exports.routesConfig = function (app) {
     ]);
     app.get('/categories', [
         ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        // PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
         CategoriesController.list
     ]);
     app.get('/categories/:categoryId', [
