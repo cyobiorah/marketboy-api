@@ -1,4 +1,4 @@
-const CategoriesController = require('./controllers/categories.controller');
+const BrandsController = require('./controllers/brands.controller');
 const PermissionMiddleware = require('../common/middlewares/auth.permission.middleware');
 const ValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
 const config = require('../common/config/env.config');
@@ -7,23 +7,24 @@ const ADMIN = config.permissionLevels.ADMIN_USER;
 // const NORMAL = config.permissionLevels.NORMAL_USER;
 
 exports.routesConfig = function (app) {
-    app.post('/categories', [
-        CategoriesController.insert
-    ]);
-    app.get('/categories', [
+    app.post('/brands', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        CategoriesController.list
+        BrandsController.insert
     ]);
-    app.get('/categories/:categoryId', [
+    app.get('/brands', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        // PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
-        CategoriesController.getById
+        BrandsController.list
     ]);
-    app.delete('/categories/:categoryId', [
+    app.get('/brands/:brandId', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        CategoriesController.removeById
+        BrandsController.getById
     ]);
-};
+    app.delete('/brands/:brandId', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        BrandsController.removeById
+    ])
+}

@@ -21,7 +21,7 @@ const UserModel = require('../../users/models/users.model');
 // };
 
 exports.login = (req, res) => {
-    console.log('Login Init');
+    // console.log('Login Init');
     // const user = await UserModel.findByEmail({email})
     UserModel.findByEmail(req.body.email)
         .then((user) => {
