@@ -3,6 +3,7 @@ const config = require('./common/config/env.config.js');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const AuthorizationRouter = require('./authorization/routes.config');
 const UsersRouter = require('./users/routes.config');
@@ -13,6 +14,7 @@ const UnitRouter = require('./units/routes.config');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use(function (req, res, next) {
     // console.log(req.body);
