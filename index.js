@@ -8,6 +8,8 @@ const AuthorizationRouter = require('./authorization/routes.config');
 const UsersRouter = require('./users/routes.config');
 const CategoriesRouter = require('./categories/routes.config');
 const ProductsRouter = require('./products/routes.config');
+const BrandsRouter = require('./brands/routes.config');
+const UnitRouter = require('./units/routes.config');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,6 +28,8 @@ AuthorizationRouter.routesConfig(app);
 UsersRouter.routesConfig(app);
 CategoriesRouter.routesConfig(app);
 ProductsRouter.routesConfig(app);
+BrandsRouter.routesConfig(app);
+UnitRouter.routesConfig(app);
 
 
 app.listen(config.port, function () {

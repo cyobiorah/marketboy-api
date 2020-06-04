@@ -54,7 +54,7 @@ exports.patchById = (req, res) => {
 exports.removeById = (req, res) => {
     ProductModel.removeById(req.params.productId)
         .then((result) => {
-            console.log(result);
+            // console.log(result);
             res.status(204).send({});
         });
 };

@@ -1,29 +1,34 @@
-const CategoriesController = require('./controllers/categories.controller');
+const UnitController = require('./controllers/units.controller');
 const PermissionMiddleware = require('../common/middlewares/auth.permission.middleware');
 const ValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
 const config = require('../common/config/env.config');
 
 const ADMIN = config.permissionLevels.ADMIN_USER;
-// const NORMAL = config.permissionLevels.NORMAL_USER;
 
 exports.routesConfig = function (app) {
-    app.post('/categories', [
-        CategoriesController.insert
-    ]);
-    app.get('/categories', [
+    app.post('/units', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        CategoriesController.list
+        UnitController.insert
     ]);
-    app.get('/categories/:categoryId', [
+    app.get('/units', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        // PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
-        CategoriesController.getById
+        UnitController.list
     ]);
-    app.delete('/categories/:categoryId', [
+    app.get('/units/:unitId', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        CategoriesController.removeById
+        UnitController.getById
     ]);
-};
+    app.patch('/units/:unitId', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        UnitController.patchById
+    ]);
+    app.delete('/units/:unitId', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        UnitController.removeById
+    ]);
+}
