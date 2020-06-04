@@ -4,9 +4,9 @@ const crypto = require('crypto');
 exports.hasAuthValidFields = (req, res, next) => {
     let request = req.body;
     let errors = [];
-    console.log(request);
+    // console.log(request);
 
-    console.log(request.hasOwnProperty('email'));
+    // console.log(request.hasOwnProperty('email'));
 
     if (req.body) {
         if (!req.body.email) {
