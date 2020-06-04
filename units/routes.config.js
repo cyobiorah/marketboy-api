@@ -1,30 +1,34 @@
-const BrandsController = require('./controllers/brands.controller');
+const UnitController = require('./controllers/units.controller');
 const PermissionMiddleware = require('../common/middlewares/auth.permission.middleware');
 const ValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
 const config = require('../common/config/env.config');
 
 const ADMIN = config.permissionLevels.ADMIN_USER;
-// const NORMAL = config.permissionLevels.NORMAL_USER;
 
 exports.routesConfig = function (app) {
-    app.post('/brands', [
+    app.post('/units', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        BrandsController.insert
+        UnitController.insert
     ]);
-    app.get('/brands', [
+    app.get('/units', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        BrandsController.list
+        UnitController.list
     ]);
-    app.get('/brands/:brandId', [
+    app.get('/units/:unitId', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        BrandsController.getById
+        UnitController.getById
     ]);
-    app.delete('/brands/:brandId', [
+    app.patch('/units/:unitId', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        BrandsController.removeById
+        UnitController.patchById
+    ]);
+    app.delete('/units/:unitId', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        UnitController.removeById
     ]);
 }
