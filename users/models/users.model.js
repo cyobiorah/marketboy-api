@@ -2,11 +2,13 @@ const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    firstName: String,
-    lastName: String,
-    email: String,
-    password: String,
-    permissionLevel: Number
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    password: { type: String, required: true, select: false },
+    permissionLevel: { type: Number },
+    createdAt: { type: Date, default: Date.now }
 });
 
 userSchema.virtual('id').get(function () {
@@ -19,15 +21,16 @@ userSchema.set('toJSON', {
 });
 
 userSchema.findById = function (cb) {
-    return this.model('Users').find({id: this.id}, cb);
+    return this.model('Users').find({ id: this.id }, cb);
 };
 
 const User = mongoose.model('Users', userSchema);
 
 
 exports.findByEmail = (email) => {
-    return User.find({email: email});
+    return User.find({ email: email });
 };
+
 exports.findById = (id) => {
     return User.findById(id)
         .then((result) => {
@@ -71,12 +74,26 @@ exports.patchUser = (id, userData) => {
             });
         });
     })
+};
 
+exports.patchUserLevel = (id, userData) => {
+    return new Promise((resolve, reject) => {
+        User.findById(id, function (err, user) {
+            if (err) reject(err);
+            for (let i in userData) {
+                user[i] = userData[i];
+            }
+            user.save(function (err, updatedUser) {
+                if (err) return reject(err);
+                resolve(updatedUser);
+            });
+        });
+    })
 };
 
 exports.removeById = (userId) => {
     return new Promise((resolve, reject) => {
-        User.remove({_id: userId}, (err) => {
+        User.remove({ _id: userId }, (err) => {
             if (err) {
                 reject(err);
             } else {

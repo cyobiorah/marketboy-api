@@ -24,5 +24,5 @@ const connectWithRetry = () => {
 
 connectWithRetry();
 
-// exports.mongoose = mongoose;
-module.exports = { mongoose }
+exports.mongoose = mongoose;
+// module.exports = { mongoose }

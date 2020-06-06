@@ -2,14 +2,22 @@ const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
-    productName: String,
-    imgageUrl: String,
-    price: String,
-    description: String,
-    categoryId: {
-        ref: 'Categories',
+    productName: { type: String, required: true },
+    imageUrl: { type: String, required: true },
+    price: { type: String, required: true },
+    description: { type: String, required: true },
+    category: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Categories',
     },
+    brand: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Brands',
+    },
+    unit: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Units'
+    }
 });
 
 productSchema.virtual('id').get(function () {
@@ -32,6 +40,10 @@ exports.findByName = (name) => {
 
 exports.findById = (id) => {
     return Product.findById(id)
+        .populate('category', '-__v')
+        .populate('unit', '-__v')
+        .populate('brand', '-__v')
+        .exec()
         .then((result) => {
             if (!result) {
                 return {
@@ -49,22 +61,24 @@ exports.findById = (id) => {
 };
 
 exports.createProduct = (productData) => {
-    // console.log(productData);
     const product = new Product(productData);
     return product.save();
 };
 
 exports.list = () => {
     return new Promise((resolve, reject) => {
-        Product.find(function (err, products) {
-            if (err) {
-                reject(err);
-            } else {
+        Product.find({})
+            .populate('category', '-__v')
+            .populate('unit', '-__v')
+            .populate('brand', '-__v')
+            .exec()
+            .then((products) => {
                 resolve(products);
-            }
-        })
-    });
-};
+            }, (err) => {
+                reject(err);
+            })
+    })
+}
 
 exports.patchProduct = (id, productData) => {
     return new Promise((resolve, reject) => {

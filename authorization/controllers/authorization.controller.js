@@ -4,42 +4,21 @@ const crypto = require('crypto');
 const uuid = require('uuid');
 const UserModel = require('../../users/models/users.model');
 
-// exports.login = (req, res) => {
-//     // console.log(req);
-//     try {
-//         let refreshId = req.body.userId + jwtSecret;
-//         let salt = crypto.randomBytes(16).toString('base64');
-//         let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
-//         req.body.refreshKey = salt;
-//         let token = jwt.sign(req.body, jwtSecret);
-//         let b = new Buffer(hash);
-//         let refresh_token = b.toString('base64');
-//         res.status(201).send({accessToken: token, refreshToken: refresh_token});
-//     } catch (err) {
-//         res.status(500).send({errors: err});
-//     }
-// };
-
 exports.login = (req, res) => {
-    // console.log('Login Init');
-    // const user = await UserModel.findByEmail({email})
     UserModel.findByEmail(req.body.email)
-        .then((user) => {
-            if (user[0]) {
-                // create user
+        .then((_user) => {
+            if (_user[0]) {
+                const user = _user[0];
+                user.__v = undefined;
                 let token = jwt.sign(req.body, jwtSecret);
                 res.status(200).send({
                     success: true,
+                    data: user,
+                    access_token: token,
                     message: 'Login Successful!',
-                    access_token: token
                 });
-                // return {
-                //     ...user.toJson(),
-                //     token
-                // }
             } else {
-                // does not exist
-                res.status(404).send({
+                res.status(200).send({
                     success: false,
                     message: 'User does not exists!',
                 })
