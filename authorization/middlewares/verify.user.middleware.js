@@ -4,34 +4,39 @@ const crypto = require('crypto');
 exports.hasAuthValidFields = (req, res, next) => {
     let request = req.body;
     let errors = [];
-    // console.log(request);
-
-    // console.log(request.hasOwnProperty('email'));
-
     if (req.body) {
         if (!req.body.email) {
-            errors.push('Missing email field ');
+            errors.push('Missing email field');
         }
         if (!req.body.password) {
-            errors.push('Missing password fieldsss');
+            errors.push('Missing password field');
         }
-
         if (errors.length) {
-            return res.status(400).send({errors: errors.join(',')});
+            return res.status(400).send({
+                success: false,
+                message: errors.join(', ')
+            });
         } else {
             return next();
         }
     } else {
-        return res.status(400).send({errors: 'Missing email and password fields'});
+        return res.status(400).send({
+            success: false,
+            message: 'Missing email and password fields'
+        });
     }
 };
 
 exports.isPasswordAndUserMatch = (req, res, next) => {
     UserModel.findByEmail(req.body.email)
-        .then((user)=>{
-            if(!user[0]){
-                res.status(404).send({});
-            }else{
+        .then((user) => {
+            // console.log(user);
+            if (!user[0]) {
+                res.status(404).send({
+                    success: false,
+                    message: 'User does not exist'
+                });
+            } else {
                 let passwordFields = user[0].password.split('$');
                 let salt = passwordFields[0];
                 let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
@@ -45,7 +50,10 @@ exports.isPasswordAndUserMatch = (req, res, next) => {
                     };
                     return next();
                 } else {
-                    return res.status(400).send({errors: ['Invalid e-mail or password']});
+                    return res.status(400).send({
+                        success: false,
+                        message: 'Invalid email or password'
+                    });
                 }
             }
         });

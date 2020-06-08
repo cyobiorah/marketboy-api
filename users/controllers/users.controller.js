@@ -51,19 +51,25 @@ exports.getById = (req, res) => {
             res.status(200).send(result);
         });
 };
-exports.patchById = (req, res) => {
-    if (req.body.password) {
-        let salt = crypto.randomBytes(16).toString('base64');
-        let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
-        req.body.password = salt + "$" + hash;
-    }
 
+exports.patchById = (req, res) => {
     UserModel.patchUser(req.params.userId, req.body)
-        .then((result) => {
-            res.status(204).send({});
-        });
+    .then((result) => {
+        res.status(204).send({});
+    });
 
 };
+
+exports.updateLevel = (req, res) => {
+    UserModel.patchUserLevel(req.params.userId, req.body)
+    .then((result) => {
+        res.status(204).send({
+            success: true,
+            message: 'User level updated',
+            data: result,
+        });
+    });
+}
 
 exports.removeById = (req, res) => {
     UserModel.removeById(req.params.userId)

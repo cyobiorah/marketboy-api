@@ -23,6 +23,16 @@ exports.insert = (req, res) => {
         })
 };
 
+exports.listProductsByCategoryId = (req, res) => {
+    ProductModel.findByCategoryId(req.params.categoryId)
+        .then((result) => {
+            res.status(200).send({
+                success: true,
+                data: result
+            });
+        })
+};
+
 exports.list = (req, res) => {
     ProductModel.list()
         .then((result) => {
