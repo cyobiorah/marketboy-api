@@ -49,3 +49,37 @@ exports.hasProductValidFields = (req, res, next) => {
         }
     }
 };
+
+exports.hasUnitValidFields = (req, res, next) => {
+    let errors = [];
+    if (req.body) {
+        if (!req.body.unitName) {
+            errors.push('Missing unit name');
+        }
+        if (errors.length) {
+            return res.status(400).send({
+                success: false,
+                message: errors.join(', ')
+            });
+        } else {
+            return next();
+        }
+    }
+}
+
+exports.hasCategoryValidFields = (req, res, next) => {
+    let errors = [];
+    if (req.body) {
+        if (!req.body.categoryName) {
+            errors.push('Missing category name');
+        }
+        if (errors.length) {
+            return res.status(400).send({
+                success: false,
+                message: errors.join(', ')
+            });
+        } else {
+            return next();
+        }
+    }
+}

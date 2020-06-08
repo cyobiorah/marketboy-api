@@ -39,6 +39,7 @@ exports.findByName = (name) => {
 };
 
 exports.findById = (id) => {
+    console.log('findById');
     return Product.findById(id)
         .populate('category', '-__v')
         .populate('unit', '-__v')
@@ -65,6 +66,22 @@ exports.createProduct = (productData) => {
     return product.save();
 };
 
+// find product by category
+exports.findByCategoryId = (id) => {
+    return new Promise((resolve, reject) => {
+        Product.find({category: id})
+            .populate('category', '-__v')
+            .populate('unit', '-__v')
+            .populate('brand', '-__v')
+            .exec()
+            .then((products) => {
+                resolve(products);
+            }, (err) => {
+                reject(err);
+            })
+    });
+};
+
 exports.list = () => {
     return new Promise((resolve, reject) => {
         Product.find({})
@@ -77,8 +94,8 @@ exports.list = () => {
             }, (err) => {
                 reject(err);
             })
-    })
-}
+    });
+};
 
 exports.patchProduct = (id, productData) => {
     return new Promise((resolve, reject) => {
