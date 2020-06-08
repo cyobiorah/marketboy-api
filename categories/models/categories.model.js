@@ -2,7 +2,7 @@ const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
 const categorySchema = new Schema({
-    categoryName: String,
+    categoryName: { type: String, required: true },
 });
 
 categorySchema.virtual('id').get(function () {
@@ -20,7 +20,7 @@ categorySchema.findById = function (cb) {
 const Category = mongoose.model('Categories', categorySchema);
 
 exports.findByName = (name) => {
-    return Category.find({categoryName: name});
+    return Category.find({ categoryName: name });
 }
 
 exports.findById = (id) => {
