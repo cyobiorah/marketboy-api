@@ -22,6 +22,11 @@ exports.routesConfig = function (app) {
     app.get('/products/:productId', [
         ProductsController.getById
     ]);
+    app.patch('/products/:productId', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        ProductsController.patchById
+    ]);
     app.delete('/products/:productId', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),

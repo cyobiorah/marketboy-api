@@ -22,8 +22,12 @@ exports.routesConfig = function (app) {
     app.get('/categories/:categoryId', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
-        // PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
         CategoriesController.getById
+    ]);
+    app.patch('/categories/:categoryId', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        CategoriesController.patchById
     ]);
     app.delete('/categories/:categoryId', [
         ValidationMiddleware.validJWTNeeded,
