@@ -39,7 +39,6 @@ exports.findByName = (name) => {
 };
 
 exports.findById = (id) => {
-    console.log('findById');
     return Product.findById(id)
         .populate('category', '-__v')
         .populate('unit', '-__v')
@@ -52,7 +51,6 @@ exports.findById = (id) => {
                 }
             } else {
                 result = result.toJSON();
-                delete result._id;
                 delete result.__v;
                 return result;
             }
