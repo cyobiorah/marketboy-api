@@ -25,6 +25,7 @@ exports.hasUserValidFields = (req, res, next) => {
 };
 
 exports.hasProductValidFields = (req, res, next) => {
+    // console.log(req.body);
     let errors = [];
     if (req.body) {
         if (!req.body.productName) {
@@ -32,7 +33,17 @@ exports.hasProductValidFields = (req, res, next) => {
         }
         if (!req.body.imageUrl) {
             errors.push('Missing image url');
+        } else {
+            if (!req.body.imageUrl['url']) {
+                errors.push('Missing url link');
+            }
+            if (!req.body.imageUrl['format']) {
+                errors.push('Missing url format');
+            }
         }
+        if (!req.body.description) {
+            errors.push('Missing product description');
+        };
         if (!req.body.price) {
             errors.push('Missing price');
         }
