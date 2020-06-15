@@ -5,16 +5,16 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cors());
+
 const AuthorizationRouter = require('./authorization/routes.config');
 const UsersRouter = require('./users/routes.config');
 const CategoriesRouter = require('./categories/routes.config');
 const ProductsRouter = require('./products/routes.config');
 const BrandsRouter = require('./brands/routes.config');
 const UnitRouter = require('./units/routes.config');
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cors());
 
 app.use(function (req, res, next) {
     // console.log(req.body);
