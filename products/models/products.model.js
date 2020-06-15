@@ -60,6 +60,8 @@ exports.findById = (id) => {
 };
 
 exports.createProduct = (productData) => {
+    productData.imageUrl = productData.imageUrl['url'];
+    console.log(productData);
     const product = new Product(productData);
     return product.save();
 };
