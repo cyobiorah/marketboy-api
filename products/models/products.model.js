@@ -2,10 +2,10 @@ const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
-    productName: { type: String, required: true },
-    imageUrl: { type: String, required: true },
-    price: { type: String, required: true },
-    description: { type: String, required: true },
+    productName: { type: String },
+    imageUrl: { type: String },
+    price: { type: String },
+    description: { type: String },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Categories',
@@ -69,7 +69,7 @@ exports.createProduct = (productData) => {
 // find product by category
 exports.findByCategoryId = (id) => {
     return new Promise((resolve, reject) => {
-        Product.find({category: id})
+        Product.find({ category: id })
             .populate('category', '-__v')
             .populate('unit', '-__v')
             .populate('brand', '-__v')
