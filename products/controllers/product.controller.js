@@ -53,7 +53,7 @@ exports.getById = (req, res) => {
 exports.patchById = (req, res) => {
     ProductModel.patchProduct(req.params.productId, req.body)
         .then((result) => {
-            res.status(204).send({
+            res.status(201).send({
                 success: true,
                 data: result,
                 message: 'Product Updated Successfully!'
