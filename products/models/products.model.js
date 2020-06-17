@@ -98,6 +98,9 @@ exports.list = () => {
 };
 
 exports.patchProduct = (id, productData) => {
+    if (productData.imageUrl) {
+        productData.imageUrl = productData.imageUrl['url'];
+    }
     return new Promise((resolve, reject) => {
         Product.findById(id, function (err, product) {
             if (err) reject(err);
